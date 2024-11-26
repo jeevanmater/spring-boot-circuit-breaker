@@ -1,0 +1,32 @@
+server:
+  port: 9090
+resilience4j:
+  circuitbreaker:
+    instances:
+      sampleService:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000ms
+        permittedNumberOfCallsInHalfOpenState: 3
+        eventConsumerBufferSize: 10
+  retry:
+    instances:
+      sampleService:
+        maxAttempts: 3
+        waitDuration: 500ms
+  timelimiter:
+    instances:
+      sampleService:
+        timeoutDuration: 2s
+        cancelRunningFuture: true
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
